@@ -37,5 +37,8 @@ module.exports = {
     'no-console': 0,
     'react/no-this-in-sfc': 0,
     'react/no-unused-class-component-methods': 0,
+    'no-sequences': 0,
+    'prefer-const': 0,
+    indent: 0,
   },
 };

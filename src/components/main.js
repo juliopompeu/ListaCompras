@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import Form from './form';
-import Tarefas from './tarefas';
+import { FaShoppingBasket } from 'react-icons/fa';
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import Form from './form/indexForm';
+import Tarefas from './tarefas/indexTarefas';
 
 import './main.css';
+import Carrinho from './carrinho/indexCarrinho';
 
 
 
@@ -11,6 +14,8 @@ export default class Main extends Component {
   state = {
     novaTarefa: '',
     tarefas: [],
+    Compras: [],
+    itensCarrinho: [],
     index: -1,
   };
 
@@ -85,15 +90,35 @@ export default class Main extends Component {
     });
   };
 
+  handleConfirm = (e, index) => {
+    // TESTE
+    const { tarefas, itensCarrinho } = this.state;
+    const novasTarefas = [...tarefas];
+
+    itensCarrinho.push(novasTarefas.splice(index, 1));
+    // novasTarefas.splice(index, 1); // teste
+
+    this.setState({
+      Compras: [...itensCarrinho],
+      tarefas: [...novasTarefas],
+    });
+  };
+
 
 
   // RENDERIZAÇÃO
   render() {
-    const { novaTarefa, tarefas } = this.state;
+    const {
+ Compras, novaTarefa, tarefas, itensCarrinho
+} = this.state;
 
     return (
       <div className="main">
-        <h1>Sua lista de compras</h1>
+        <h1>
+          Sua lista de compras
+          {' '}
+          <FaShoppingBasket />
+        </h1>
 
         <Form
           handleSubmit={this.handleSubmit}
@@ -102,12 +127,38 @@ export default class Main extends Component {
         />
 
         <Tarefas
+          handleConfirm={this.handleConfirm}
           tarefas={tarefas}
           handleEdit={this.handleEdit}
           handleDelete={this.handleDelete}
         />
 
+        <div className="carrinho">
+
+          <h1>
+            Suas compras
+            {' '}
+            <AiOutlineShoppingCart />
+          </h1>
+
+          {/* <Form
+            handleSubmit={this.handleSubmit}
+            handleChange={this.handleChange}
+            novaTarefa={novaTarefa}
+          /> */}
+
+          <Carrinho
+            handleConfirm={this.handleConfirm}
+            Compras={Compras}
+            itensCarrinho={itensCarrinho}
+            handleEdit={this.handleEdit}
+          />
+
+        </div>
+
       </div>
+
+
     );
   }
 }
